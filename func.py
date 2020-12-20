@@ -14,7 +14,7 @@ class BotLogHandler(logging.Handler):
         self.telegram_bot.send_message(chat_id=self.chat_id, text=log_entry)
 
 
-logger = logging.getLogger("DialogBot.GoogleRequest")
+
 
 
 def detect_intent_texts(project_id, session_id, text, language_code):
@@ -26,6 +26,8 @@ def detect_intent_texts(project_id, session_id, text, language_code):
     session_client = dialogflow.SessionsClient()
 
     session = session_client.session_path(project_id, session_id)
+
+    logger = logging.getLogger("DialogBot.GoogleRequest")
     logger.debug('Session path: {}\n'.format(session))
 
     text_input = dialogflow.TextInput(
