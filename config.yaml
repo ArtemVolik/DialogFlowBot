@@ -1,0 +1,19 @@
+version: 1
+handlers:
+  BotLogHandler:
+    class: func.BotLogHandler
+    formatter: myFormatter
+    level: WARNING
+  filehandler:
+    class: logging.FileHandler
+    formatter: myFormatter
+    level: DEBUG
+    filename: config.log
+loggers:
+  DialogBot:
+    handlers: [BotLogHandler, filehandler]
+    level: DEBUG
+formatters:
+  myFormatter:
+    format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+
