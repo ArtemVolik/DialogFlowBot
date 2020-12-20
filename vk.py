@@ -37,7 +37,6 @@ if __name__ == "__main__":
     vk_session = vk_api.VkApi(token=vk_group_token)
     vk = vk_session.get_api()
     longpoll = VkLongPoll(vk_session)
-    logger.warning('VK bot launched')
 
     while True:
         try:
