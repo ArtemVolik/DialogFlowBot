@@ -1,12 +1,12 @@
 import logging
-import telegram
 from google.cloud import dialogflow
+from telegram import Bot
 
 
 class BotLogHandler(logging.Handler):
     def __init__(self, tg_bot, chat_id):
         super().__init__()
-        self.telegram_bot = telegram.Bot(token=tg_bot)
+        self.telegram_bot = Bot(token=tg_bot)
         self.chat_id = chat_id
 
     def emit(self, record):
