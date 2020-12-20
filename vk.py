@@ -31,7 +31,6 @@ if __name__ == "__main__":
     logger = logging.getLogger("DialogBot.Vkontakte")
     logger.warning('Vkontakte Dialog Bot launched')
 
-
     project_id = env('GOOGLE_PROJECT_ID')
     language_code = env('LANGUAGE_CODE')
     vk_group_token = env('VK_API_KEY')
@@ -39,7 +38,6 @@ if __name__ == "__main__":
     vk = vk_session.get_api()
     longpoll = VkLongPoll(vk_session)
     logger.warning('VK bot launched')
-
 
     while True:
         try:
