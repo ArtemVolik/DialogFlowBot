@@ -2,4 +2,3 @@ venv
 .env
 *.json
 *.log
-*.md
