@@ -2,7 +2,7 @@ import dialogflow_v2
 import requests
 from environs import Env
 import dialogflow_v2beta1
-import logging
+from logs.logging_maintenace import get_logger_from_config
 
 
 def get_intent_text(url):
@@ -20,10 +20,10 @@ def put_intent(intent, project_id):
 
 def transform_question_category(row):
     question_category, content = row
-    answers = content['answers']
+    answer = content['answer']
     questions = content['questions']
     intent = {'display_name': question_category, 'messages': []}
-    intent['messages'].append({'text': {'text': [answers]}})
+    intent['messages'].append({'text': {'text': [answer]}})
     intent['training_phrases'] = [{'parts': [{'text': question}]}
                                   for question in questions]
     return intent
@@ -39,12 +39,11 @@ def train_agent(project_id):
 if __name__ == "__main__":
     env = Env()
     Env.read_env()
-    logger = logging.getLogger("DialogBot.TrainAgent")
-
+    logger = get_logger_from_config('logs/log_config.yaml', env('NOTIFICATION_TOKEN'), env('NOTIFICATION_CHAT_ID'),
+                                    "DialogBot.TrainAgent")
     project_id = env('GOOGLE_PROJECT_ID')
     url = env('QUESTIONS_URL')
     questions = get_intent_text(url)
-
     for i in questions.items():
         data = transform_question_category(i)
         try:
