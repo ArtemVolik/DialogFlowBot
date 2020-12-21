@@ -2,13 +2,13 @@ import vk_api
 from vk_api.longpoll import VkLongPoll, VkEventType
 import environ
 import random
-from func import detect_intent_texts
+from integrations.google_dialogflow import get_agent_answer
 import logging.config
-import yaml
+from logs.logging_maintenace import logging_config_loading
 
 
 def event_handle(event, vk_api):
-    get_google_bot_answer = detect_intent_texts(
+    get_google_bot_answer = get_agent_answer(
         project_id, event.user_id, event.text, language_code)
     if get_google_bot_answer:
         vk_api.messages.send(
@@ -21,16 +21,9 @@ def event_handle(event, vk_api):
 if __name__ == "__main__":
     env = environ.Env()
     env.read_env()
-
-    with open('log_config.yaml', 'r') as f:
-        config = yaml.safe_load(f.read())
-        config['handlers']['BotLogHandler']['tg_bot'] = env('NOTIFICATION_TOKEN')
-        config['handlers']['BotLogHandler']['chat_id'] = env('NOTIFICATION_CHAT_ID')
-        logging.config.dictConfig(config)
-
+    logging_config_loading('logs/log_config.yaml', env('NOTIFICATION_TOKEN'), env('NOTIFICATION_CHAT_ID'))
     logger = logging.getLogger("DialogBot.Vkontakte")
     logger.warning('Vkontakte Dialog Bot launched')
-
     project_id = env('GOOGLE_PROJECT_ID')
     language_code = env('LANGUAGE_CODE')
     vk_group_token = env('VK_API_KEY')

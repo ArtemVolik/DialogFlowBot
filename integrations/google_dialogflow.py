@@ -1,23 +1,8 @@
-import logging
 from google.cloud import dialogflow
-from telegram import Bot
+import logging
 
 
-class BotLogHandler(logging.Handler):
-    def __init__(self, tg_token, chat_id):
-        super().__init__()
-        self.telegram_bot = Bot(token=tg_token)
-        self.chat_id = chat_id
-
-    def emit(self, record):
-        log_entry = self.format(record)
-        self.telegram_bot.send_message(chat_id=self.chat_id, text=log_entry)
-
-
-
-
-
-def detect_intent_texts(project_id, session_id, text, language_code):
+def get_agent_answer(project_id, session_id, text, language_code):
     """Returns the result of detect intent with texts as inputs.
 
     Using the same `session_id` between requests allows continuation

@@ -1,13 +1,13 @@
 import environ
 from telegram.ext import Updater, MessageHandler, Filters
 from telegram import Bot
-from func import detect_intent_texts
+from integrations.google_dialogflow import get_agent_answer
 import logging.config
-import yaml
+from logs.logging_maintenace import logging_config_loading
 
 
 def echo(update, context):
-    get_google_bot_answer = detect_intent_texts(project_id, update.effective_chat.id, update.message.text,
+    get_google_bot_answer = get_agent_answer(project_id, update.effective_chat.id, update.message.text,
                                                 language_code)
     if not get_google_bot_answer:
         return
@@ -17,13 +17,7 @@ def echo(update, context):
 if __name__ == "__main__":
     env = environ.Env()
     env.read_env()
-
-    with open('log_config.yaml', 'r') as f:
-        config = yaml.safe_load(f.read())
-        config['handlers']['BotLogHandler']['tg_bot'] = env('NOTIFICATION_TOKEN')
-        config['handlers']['BotLogHandler']['chat_id'] = env('NOTIFICATION_CHAT_ID')
-        logging.config.dictConfig(config)
-
+    logging_config_loading('logs/log_config.yaml', env('NOTIFICATION_TOKEN'), env('NOTIFICATION_CHAT_ID'))
     logger = logging.getLogger("DialogBot")
     logger.warning('Telegram Dialog Bot launched')
 
