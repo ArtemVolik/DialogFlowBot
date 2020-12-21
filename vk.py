@@ -3,8 +3,7 @@ from vk_api.longpoll import VkLongPoll, VkEventType
 import environ
 import random
 from integrations.google_dialogflow import get_agent_answer
-import logging.config
-from logs.logging_maintenace import logging_config_loading
+from logs.logging_maintenace import get_logger_from_config
 
 
 def event_handle(event, vk_api):
@@ -22,8 +21,9 @@ def event_handle(event, vk_api):
 if __name__ == "__main__":
     env = environ.Env()
     env.read_env()
-    logging_config_loading('logs/log_config.yaml', env('NOTIFICATION_TOKEN'), env('NOTIFICATION_CHAT_ID'))
-    logger = logging.getLogger("DialogBot.Vkontakte")
+    logger = get_logger_from_config(
+        'logs/log_config.yaml', env('NOTIFICATION_TOKEN'),
+        env('NOTIFICATION_CHAT_ID'), "DialogBot.Vkontakte")
     logger.warning('Vkontakte Dialog Bot launched')
     project_id = env('GOOGLE_PROJECT_ID')
     language_code = env('LANGUAGE_CODE')
@@ -31,6 +31,7 @@ if __name__ == "__main__":
     vk_session = vk_api.VkApi(token=vk_group_token)
     vk = vk_session.get_api()
     longpoll = VkLongPoll(vk_session)
+
 
     while True:
         try:
