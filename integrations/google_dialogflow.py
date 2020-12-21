@@ -29,7 +29,4 @@ def get_agent_answer(project_id, session_id, text, language_code):
     except Exception as er:
         logging.exception(er)
 
-    if response.query_result.intent.is_fallback:
-        return
-
-    return response.query_result.fulfillment_text
+    return response.query_result
