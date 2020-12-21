@@ -10,12 +10,13 @@ from logs.logging_maintenace import logging_config_loading
 def event_handle(event, vk_api):
     get_google_bot_answer = get_agent_answer(
         project_id, event.user_id, event.text, language_code)
-    if get_google_bot_answer:
-        vk_api.messages.send(
-            user_id=event.user_id,
-            message=get_google_bot_answer,
-            random_id=random.randint(1, 1000)
-        )
+    if get_google_bot_answer.intent.is_fallback:
+        return
+    vk_api.messages.send(
+        user_id=event.user_id,
+        message=get_google_bot_answer.fulfillment_text,
+        random_id=random.randint(1, 1000)
+    )
 
 
 if __name__ == "__main__":

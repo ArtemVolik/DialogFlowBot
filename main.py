@@ -6,12 +6,10 @@ import logging.config
 from logs.logging_maintenace import logging_config_loading
 
 
-def echo(update, context):
+def update_handling(update, context):
     get_google_bot_answer = get_agent_answer(project_id, update.effective_chat.id, update.message.text,
                                                 language_code)
-    if not get_google_bot_answer:
-        return
-    context.bot.send_message(chat_id=update.effective_chat.id, text=get_google_bot_answer)
+    context.bot.send_message(chat_id=update.effective_chat.id, text=get_google_bot_answer.fulfillment_text)
 
 
 if __name__ == "__main__":
@@ -27,7 +25,7 @@ if __name__ == "__main__":
     language_code = env('LANGUAGE_CODE')
     updater = Updater(token=telegram_token, use_context=True)
     dispatcher = updater.dispatcher
-    echo_handler = MessageHandler(Filters.text & (~Filters.command), echo)
+    echo_handler = MessageHandler(Filters.text & (~Filters.command), update_handling)
     dispatcher.add_handler(echo_handler)
     while True:
         try:
