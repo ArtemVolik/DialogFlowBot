@@ -1,7 +1,7 @@
 import logging
-
 from telegram import Bot
 import yaml
+import logging.config
 
 
 class BotLogHandler(logging.Handler):
@@ -15,10 +15,12 @@ class BotLogHandler(logging.Handler):
         self.telegram_bot.send_message(chat_id=self.chat_id, text=log_entry)
 
 
-def logging_config_loading(log_config: str, notification_token: str, notification_chat_id: str):
+def get_logger_from_config(log_config: str, notification_token: str, notification_chat_id: str, logger_name):
     log_config = log_config
     with open(log_config, 'r') as f:
         config = yaml.safe_load(f.read())
         config['handlers']['BotLogHandler']['tg_token'] = notification_token
         config['handlers']['BotLogHandler']['chat_id'] = notification_chat_id
         logging.config.dictConfig(config)
+        return logging.getLogger(logger_name)
+
