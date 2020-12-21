@@ -18,7 +18,6 @@ def put_intent(intent, project_id):
     logger.debug(response)
 
 
-
 def transform_question_category(row):
     question_category, content = row
     answers = content['answers']
@@ -28,6 +27,7 @@ def transform_question_category(row):
     intent['training_phrases'] = [{'parts': [{'text': question}]}
                                   for question in questions]
     return intent
+
 
 def train_agent(project_id):
     client = dialogflow_v2beta1.AgentsClient()
@@ -46,7 +46,6 @@ if __name__ == "__main__":
     questions = get_intent_text(url)
 
     for i in questions.items():
-        break
         data = transform_question_category(i)
         try:
             put_intent(data, project_id)
