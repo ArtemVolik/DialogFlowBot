@@ -8,8 +8,8 @@
 [тестовый паблик Вк](https://vk.com/public201158246)
 
 Выглядит это так:  
-![Alt text](/Screenshot_vk.png?raw=true "VK")  
-![Alt text](/Screenshot_tg.png?raw=true "telegram")
+![Alt text](/examples/Screenshot_vk.png?raw=true "VK")  
+![Alt text](/examples/Screenshot_tg.png?raw=true "telegram")
 
 ## Установка  
  
