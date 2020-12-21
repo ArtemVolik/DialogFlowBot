@@ -1,14 +1,14 @@
 version: 1
 handlers:
   BotLogHandler:
-    class: func.BotLogHandler
+    class: logs.logging_maintenace.BotLogHandler
     formatter: myFormatter
     level: WARNING
   filehandler:
     class: logging.FileHandler
     formatter: myFormatter
     level: DEBUG
-    filename: config.log
+    filename: logs/chatbot.log
 loggers:
   DialogBot:
     handlers: [BotLogHandler, filehandler]
