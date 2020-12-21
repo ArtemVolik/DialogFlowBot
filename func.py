@@ -4,9 +4,9 @@ from telegram import Bot
 
 
 class BotLogHandler(logging.Handler):
-    def __init__(self, tg_bot, chat_id):
+    def __init__(self, tg_token, chat_id):
         super().__init__()
-        self.telegram_bot = Bot(token=tg_bot)
+        self.telegram_bot = Bot(token=tg_token)
         self.chat_id = chat_id
 
     def emit(self, record):

@@ -18,7 +18,7 @@ if __name__ == "__main__":
     env = environ.Env()
     env.read_env()
 
-    with open('config.yaml', 'r') as f:
+    with open('log_config.yaml', 'r') as f:
         config = yaml.safe_load(f.read())
         config['handlers']['BotLogHandler']['tg_bot'] = env('NOTIFICATION_TOKEN')
         config['handlers']['BotLogHandler']['chat_id'] = env('NOTIFICATION_CHAT_ID')
