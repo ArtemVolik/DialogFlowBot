@@ -46,6 +46,6 @@ if __name__ == "__main__":
         data = transform_question_category(i)
         try:
             put_intent(data, project_id)
-        except:
+        except ConnectionError:
             continue
     train_agent(project_id)
