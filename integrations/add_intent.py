@@ -1,11 +1,9 @@
 import dialogflow_v2
 import requests
-import environ
+from environs import Env
 import dialogflow_v2beta1
 import logging
 
-logger = logging.getLogger("DialogBot.GoogleRequest")
-logger.debug('Session path: {}\n'.format(session))
 
 def get_intent_text(url):
     response = requests.get(url)
@@ -20,13 +18,16 @@ def put_intent(intent, project_id):
     logger.debug(response)
 
 
-def transform_question_category(question_category):
-    intent = {'display_name': question_category[0], 'messages': []}
-    intent['messages'].append({'text': {'text': [question_category[1]['answer']]}})
-    intent['training_phrases'] = [{'parts': [{'text': question}]}
-                                  for question in question_category[1]['questions']]
-    return intent
 
+def transform_question_category(row):
+    question_category, content = row
+    answers = content['answers']
+    questions = content['questions']
+    intent = {'display_name': question_category, 'messages': []}
+    intent['messages'].append({'text': {'text': [answers]}})
+    intent['training_phrases'] = [{'parts': [{'text': question}]}
+                                  for question in questions]
+    return intent
 
 def train_agent(project_id):
     client = dialogflow_v2beta1.AgentsClient()
@@ -36,13 +37,16 @@ def train_agent(project_id):
 
 
 if __name__ == "__main__":
-    env = environ.Env()
-    env.read_env()
+    env = Env()
+    Env.read_env()
     logger = logging.getLogger("DialogBot.TrainAgent")
+
     project_id = env('GOOGLE_PROJECT_ID')
     url = env('QUESTIONS_URL')
     questions = get_intent_text(url)
+
     for i in questions.items():
+        break
         data = transform_question_category(i)
         try:
             put_intent(data, project_id)
