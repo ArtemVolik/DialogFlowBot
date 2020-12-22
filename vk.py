@@ -6,6 +6,7 @@ from integrations.google_dialogflow import get_agent_answer
 from logs.logging_maintenace import get_logger_from_config
 import requests
 
+
 def event_handle(event, vk_api):
     get_google_bot_answer = get_agent_answer(
         project_id, event.user_id, event.text, language_code)
