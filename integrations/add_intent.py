@@ -43,9 +43,9 @@ if __name__ == "__main__":
                                     "DialogBot.TrainAgent")
     project_id = env('GOOGLE_PROJECT_ID')
     url = env('QUESTIONS_URL')
-    questions = get_intent_text(url)
-    for i in questions.items():
-        data = transform_question_category(i)
+    questions_categories = get_response(url)
+    for content in questions_categories.items():
+        data = transform_question_category(content)
         try:
             put_intent(data, project_id)
         except ConnectionError:
