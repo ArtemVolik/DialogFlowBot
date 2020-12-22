@@ -38,7 +38,7 @@ def train_agent(project_id):
 
 if __name__ == "__main__":
     env = Env()
-    Env.read_env()
+    env.read_env()
     logger = get_logger_from_config('logs/log_config.yaml', env('NOTIFICATION_TOKEN'), env('NOTIFICATION_CHAT_ID'),
                                     "DialogBot.TrainAgent")
     project_id = env('GOOGLE_PROJECT_ID')
