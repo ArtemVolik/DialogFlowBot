@@ -5,7 +5,7 @@ import dialogflow_v2beta1
 from logs.logging_maintenace import get_logger_from_config
 
 
-def get_intent_text(url):
+def get_response(url):
     response = requests.get(url)
     response.raise_for_status()
     return response.json()
