@@ -4,7 +4,7 @@ import environ
 import random
 from integrations.google_dialogflow import get_agent_answer
 from logs.logging_maintenace import get_logger_from_config
-
+import requests
 
 def event_handle(event, vk_api):
     get_google_bot_answer = get_agent_answer(
@@ -38,7 +38,7 @@ if __name__ == "__main__":
             for event in longpoll.listen():
                 if event.type == VkEventType.MESSAGE_NEW and event.to_me:
                     event_handle(event, vk)
-        except ConnectionError as er:
+        except (ConnectionError, requests.exceptions.ReadTimeout) as er:
             logger.warning(er)
             continue
         except Exception as er:
